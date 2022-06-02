@@ -1,13 +1,13 @@
 # Project Information
 site_name: MVP for GB on AWS
-site_author: Vishal Koparde
+site_author: Vishal Koparde, Ph.D.
 site_description: >-
   Details related to the HPC component of Minimal Viable Project for Genetics Branch on AWS. 
 
 # Repository
 repo_name: CCRGeneticsBranch/AWS_MVP_HPC
 repo_url: https://github.com/CCRGeneticsBranch/AWS_MVP_HPC
-# edit_uri: https://github.com/skchronicles/RNA-seek/edit/master/docs/
+edit_uri: https://github.com/CCRGeneticsBranch/AWS_MVP_HPC/edit/main/docs/
 
 # Copyright
 copyright: Copyright &copy; 2022 CCBR
@@ -18,6 +18,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.top
+    - navigation.indexes
     - toc.integrate 
   palette:
     - scheme: default
@@ -95,4 +96,4 @@ markdown_extensions:
 # Page Tree
 nav:
   - Background : index.md
-  - Workflow : workflow.md
+  - Workflow : MVP/workflow.md
