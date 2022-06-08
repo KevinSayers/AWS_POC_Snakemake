@@ -13,7 +13,8 @@ The core of most RNAseq data analysis workflows are mostly identical involving t
 - collect QC metrics at various stages 
 
 The follow graphic depicts the basic workflow that we will attempt to create on AWS:
-![diagram](https://i.imgur.com/Rh95JU9.png)
+<!-- ![diagram](https://i.imgur.com/Rh95JU9.png =250x) -->
+<img src="https://i.imgur.com/Rh95JU9.png" alt="drawing" width="600"/>
 
 ### INPUTS
 
