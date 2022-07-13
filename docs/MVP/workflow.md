@@ -20,13 +20,13 @@ The follow graphic depicts the basic workflow that we will attempt to create on 
 
 The inputs will be read from a s3 bucket and the outputs will be written to the same s3 bucket. Individual dockers will be created for various steps of the pipeline as described below:
 
-| Pipeline Step | Tool in Docker |
-| ------------- | -------------- |
-| Trim          | [CutAdapt<sup>1</sup>](https://cutadapt.readthedocs.io/)       |
-| Align         | [STAR<sup>2</sup>](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)           |
-| BuildIndex    | [STAR<sup>2</sup>](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf)           |
-| Count         | [RSEM<sup>3</sup>](https://github.com/deweylab/RSEM#readme-for-rsem)           |
-| Report        | [MultiQC<sup>4</sup>](https://multiqc.info/)        |
+| Pipeline Step | Tool in Docker | DockerHub Link |
+| ------------- | -------------- | -------------- |
+| Trim          | [CutAdapt<sup>1</sup>](https://cutadapt.readthedocs.io/) | [ccrgb_cutadapt_v1.18](https://hub.docker.com/repository/docker/nciccbr/ccrgb_cutadapt_v1.18) |
+| Align         | [STAR<sup>2</sup>](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf) | [ccrgb_star_v2.7.10a](https://hub.docker.com/repository/docker/nciccbr/ccrgb_star_v2.7.10a) |
+| BuildIndex    | [STAR<sup>2</sup>](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf) |[ccrgb_star_v2.7.10a](https://hub.docker.com/repository/docker/nciccbr/ccrgb_star_v2.7.10a) |
+| Count         | [RSEM<sup>3</sup>](https://github.com/deweylab/RSEM#readme-for-rsem) | [ccrgb_star_v2.7.10a](https://hub.docker.com/repository/docker/nciccbr/ccrgb_star_v2.7.10a) |
+| Report        | [MultiQC<sup>4</sup>](https://multiqc.info/) | [ccrgb_multiqc_v1.12](https://hub.docker.com/repository/docker/nciccbr/ccrgb_multiqc_v1.12) |
 
 ### Inputs
 
