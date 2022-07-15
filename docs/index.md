@@ -1,7 +1,7 @@
 ## DESCRIPTION
 
 
-This is a living document for the HPC component of the MVP on AWS. This is a code repository and a living document describing ideas/"how-tos"/slides etc. related to the Minimal Viable Product (MVP) [^1] to be built for the Genetics Branch (GB) on Cloud One or AWS.
+This is a living document for the HPC component of the MVP on AWS. This is a code repository and a living document describing ideas, "how-tos", slides etc. related to the Minimal Viable Product (MVP) to be built for the Genetics Branch (GB) on Cloud One or AWS.
 
 > <ins>Disclaimer</ins>: There are two parallel efforts underway for the _"cloudification"_ of GB, namely, a. Moving the database management and its web-interface to AWS also referred to as **"the Database component"** and b. Orchestrating NGS analysis workflows on AWS which is also referred to as **"the HPC compotent"**. This repository solely focuses on _the HPC component_.
 
@@ -18,4 +18,4 @@ The code [repository](https://github.com/CCRGeneticsBranch/AWS_MVP_HPC) will hol
 - This documentation
 
 
-[^1]: Please send your comments/questions/suggestions to [Vishal Koparde](mailto:vishal.koparde@nih.gov).
+> Please send your comments/questions/suggestions to [Vishal Koparde](mailto:vishal.koparde@nih.gov).
