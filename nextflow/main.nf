@@ -2,6 +2,7 @@
 //params.genome     = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/GRCh38"
 //params.star_Ref    = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/STAR_2.7.8a"
 genomeIndex = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/STAR_2.7.8a")
+rsemIndex = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/rsem_1.3.2")
 params.reads      = "/data/khanlab/projects/Nextflow_test/test_data/Sample_NCI0439_T1D_E_HTNCJBGX9_{R1,R2}.fastq"
 params.results    = "/data/khanlab/projects/Nextflow_test/results" 
 reads_ch = Channel.fromFilePairs(params.reads)
@@ -29,10 +30,9 @@ process cutadapt {
 
 process fastqc {
 
-	publishDir "$params.out/$sample_id", mode: 'move'
+//	publishDir "$params.out/$sample_id", mode: 'move'
 
 	input:
-//	tuple sample_id, file(reads_file) from reads_ch
 	tuple val(sample_id), path(reads) from reads1_ch
 	path(pairs) from trim_ch1
 
@@ -50,32 +50,25 @@ process fastqc {
 }
 
 
-
-
 process star {
 
-//	publishDir "$params.out/$sample_id", mode: 'move'
+//	publishDir "$params.out/", mode: 'move'
 
 	input:
-	set pair_id, file(reads) from trim_ch2
+	path(pairs) from trim_ch2
 	file(STARgenome) from genomeIndex
 
 	output:
-	set pair_id, file("${pair_id}/*.out.bam") into bam_ch
- 
+	path "*Aligned.toTranscriptome.out.bam" into bam1
+	path "*Aligned.sortedByCoord.out.bam" into bam2
+
 
 	container 'docker://nciccbr/ncigb_star_v2.7.10a:latest'
 
 	script:
-
-	def output = "${pair_id}"
 	"""
-		
-	mkdir STAR_out
-	cd STAR_out
 	STAR --genomeDir ${STARgenome} \
-		--readFilesIn  ${reads} \
-		--outFileNamePrefix ${pair_id} \
+		--readFilesIn  ${pairs} \
 		--runThreadN ${task.cpus} \
 		--twopassMode Basic \
 		--outSAMunmapped Within \
@@ -89,9 +82,29 @@ process star {
 		--quantMode TranscriptomeSAM \
 		--outBAMsortingThreadN 6 \
 		--limitBAMsortRAM 80000000000
-	mkdir ${output}
-	mv *Aligned* ${output}
-
+	
 	"""
 }
 
+
+
+process rsem {
+
+	publishDir "$params.out/", mode: 'move'
+	input:
+	path("bamfile") from bam1
+	file(rsemindex) from rsemIndex
+
+	output:
+	path("rsem_out") into expr
+	
+	container 'docker://nciccbr/ccbr_rsem_1.3.3:v1.0'
+
+	script:
+	"""
+	rsem-calculate-expression --no-bam-output --paired-end -p ${task.cpus}  --estimate-rspd  --bam ${bamfile} ${rsemindex}/rsem_1.3.2 test
+	mkdir rsem_out
+	mv *results ./rsem_out
+	"""
+
+}
