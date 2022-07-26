@@ -1,7 +1,9 @@
 
 //params.genome     = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/GRCh38"
 //params.star_Ref    = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/STAR_2.7.8a"
-genomeIndex = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/STAR_2.7.8a")
+//genomeIndex = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/STAR_2.7.8a")
+genomeIndex = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/index-STAR_2.7.9a")
+gtf = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/gencode.v37lift37.annotation_ERCC92.gtf")
 rsemIndex = Channel.fromPath("/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/rsem_1.3.2")
 params.reads      = "/data/khanlab/projects/Nextflow_test/test_data/Sample_NCI0439_T1D_E_HTNCJBGX9_{R1,R2}.fastq"
 params.results    = "/data/khanlab/projects/Nextflow_test/results" 
@@ -57,7 +59,7 @@ process star {
 	input:
 	path(pairs) from trim_ch2
 	file(STARgenome) from genomeIndex
-
+	file(gtf) from gtf
 	output:
 	path "*Aligned.toTranscriptome.out.bam" into bam1
 	path "*Aligned.sortedByCoord.out.bam" into bam2
@@ -69,6 +71,7 @@ process star {
 	"""
 	STAR --genomeDir ${STARgenome} \
 		--readFilesIn  ${pairs} \
+		--sjdbGTFfile ${gtf} \
 		--runThreadN ${task.cpus} \
 		--twopassMode Basic \
 		--outSAMunmapped Within \
