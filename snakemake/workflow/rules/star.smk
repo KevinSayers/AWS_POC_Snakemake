@@ -14,6 +14,7 @@ rule star:
 	cd {params.out}
 	STAR --genomeDir {params.STARgenome} \
 		--readFilesIn  {input} \
+		--readFilesCommand  zcat \
 		--runThreadN ${{threads}} \
 		--twopassMode Basic \
 		--outSAMunmapped Within \
