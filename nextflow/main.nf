@@ -111,3 +111,22 @@ process rsem {
 	"""
 
 }
+
+
+process multiqc {
+
+	publishDir "$params.out/", mode: 'move'
+	input:
+	file('fastqc_*/*') from fastqc_ch
+
+	output:
+	file "multiqc_report.html"
+
+	container 'docker://nciccbr/ccbr_multiqc_1.9:v0.0.1'
+
+	script:
+	"""
+	multiqc -m fastqc .
+	"""
+
+}
