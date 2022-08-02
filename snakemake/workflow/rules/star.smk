@@ -14,8 +14,8 @@ rule star:
 	cd {params.out}
 	STAR --genomeDir {params.STARgenome} \
 		--readFilesIn  {input} \
-		--readFilesCommand  zcat \
-		--runThreadN ${{threads}} \
+		--readFilesCommand zcat \
+		--runThreadN {threads} \
 		--twopassMode Basic \
 		--outSAMunmapped Within \
 		--chimSegmentMin 12 \
@@ -28,7 +28,6 @@ rule star:
 		--quantMode TranscriptomeSAM \
 		--outBAMsortingThreadN 6 \
 		--limitBAMsortRAM 80000000000
-
 	mv *Aligned.sortedByCoord.out.bam {output.G_bam}
 	mv *Aligned.toTranscriptome.out.bam {output.T_bam}
 	"""
