@@ -16,8 +16,8 @@ rule fastqc:
 	params:
 		out = join(workpath,"fastqc")
 	output:
-		expand(join(workpath,"fastqc","{name}_R1_fastqc.html"),name=samples),
-		expand(join(workpath,"fastqc","{name}_R2_fastqc.html"),name=samples)
+		expand(join(workpath,"fastqc","{name}_R1_fastqc.zip"),name=samples),
+		expand(join(workpath,"fastqc","{name}_R2_fastqc.zip"),name=samples)
 
 	envmodules:
 	"fastqc/0.11.9"
