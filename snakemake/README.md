@@ -1,43 +1,45 @@
-# CCBR Snakemake Pipeline Cookiecutter
-This is a dummy folder framework for CCBR snakemake workflows.
-New workflows can be started using this repository as a template.
+1. Create a fastq folder and add the compressed RNA-seq fastq files to the directory. The files must contain the extension _R1.fastq.gz & _R2.fastq.gz
+2. The wrapper run_SN_MVP.sh is used to launch the pipeline and to do a dry run. 
+```
+% ./run_SN_MVP.sh
+Pipeline Dir: /vf/users/khanlab/projects/AWS_MVP_HPC/snakemake
+Git Commit/Tag: 20675a530d7de78f548fbba0c71b1ad4d8950369	
 
-## Creating PAT for GH 
-This is a prerequisite for the next step. You will need [gh cli](https://cli.github.com/) installed on your laptop or use `/data/CCBR_Pipeliner/db/PipeDB/bin/gh_1.7.0_linux_amd64/bin/gh` on biowulf. Skip if can access github in an automated way already.
+run_SN_MVP.sh
+--> run Snakemake_MVP pipeline
 
-Personal Access Token (PAT) is required to access GitHub (GH) without having to authenticate by other means (like password) every single time. You can create a PAT by going [here](https://github.com/settings/tokens). Then you can copy the PAT and save it into a file on biowulf (say `~/gh_token`). Next, you can run the following command to set everything up correctly on biowulf (or your laptop)
-```
-gh auth login --with-token < ~/git_token
-```
+USAGE:
+  bash ./run_SN_MVP.sh -m/--runmode=<RUNMODE> -w/--workdir=<WORKDIR>
+Required Arguments:
+1.  RUNMODE: [Type: String] Valid options:
+    *) init : initialize workdir
+    *) run : run with slurm
+    *) reset : DELETE workdir dir and re-init it
+    *) dryrun : dry run snakemake to generate DAG
+    *) unlock : unlock workdir if locked by snakemake
+    *) runlocal : run without submitting to sbatch
+2.  WORKDIR: [Type: String]: Absolute or relative path to the output folder with write permissions.
 
-## Creating new repository
-You can use [gh cli](https://cli.github.com/) to
- * create a new repository under CCBR, and
- * copy over the template code from CCBR_SnakemakePipelineCookiecutter
-with the following command
-```
-gh repo create CCBR/<reponame> \
---description "<repo description>" \
---public \
---template CCBR/CCBR_SnakemakePipelineCookiecutter \
---confirm
-```
-On biowulf, you may have to specify the full path of the `gh` executable is located here: `/data/CCBR_Pipeliner/db/PipeDB/bin/gh_1.7.0_linux_amd64/bin/gh`
-
-Then you can clone a local copy of the new repository:
-```
-gh repo clone CCBR/<reponame>.git
 ```
 
-If you drop the `CCBR/` from the `gh` command above, then the new repo is created under your username. The commands would then look like this:
-```
-gh repo create <reponame> \
---description "<repo description>" \
---public \
---template CCBR/CCBR_SnakemakePipelineCookiecutter \
---confirm
+**init**  Initialize the output folder
 
-gh repo clone <your_github_handle>/<reponame>.git
-```
+Specify an output folder and initialize it with the following command. 
 
-You can change `--public` to `--private` in the above `gh` command to make the newly created repository private.
+```
+bash ./run_SN_MVP.sh -m=init -w=<path to Output Directory>
+```
+**dryrun** To verify the run
+
+```cd``` to the output directory and edit the config.yaml. Add the run specific user defined data like the input files location, path to references and genome annotation, fasta files. Then we run the following command to ensure that we are ready to submit the job to the cluster.
+
+``` 
+bash run_SN_MVP.sh -m=dryrun -w=<path to Output Directory>
+```
+**run** launching the pipeline
+
+If the dryrun looks good, we can go ahead and launch the pipeline using the following command.
+
+```
+bash run_SN_MVP.sh -m=run -w=<path to Output Directory>
+```
