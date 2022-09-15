@@ -10,4 +10,4 @@ This is a code repository and a living document describing ideas, "how-tos", sli
 
 For complete documentation please go [here](https://CCRGeneticsBranch.github.io/AWS_MVP_HPC/).
 
-Please send your comments/questions/suggestions to [Vishal Koparde](mailto:vishal.koparde@nih.gov).
+Please send your comments/questions/suggestions to [Vishal Koparde](https://github.com/kopardev) via [email](mailto:vishal.koparde@nih.gov).
