@@ -12,6 +12,6 @@ rule rsem:
 	shell: """
 
 	cd {params.out}
-	rsem-calculate-expression --no-bam-output --paired-end -p ${{THREADS}}  --estimate-rspd  --bam {input} {params.ref} {params.name}
+	rsem-calculate-expression --no-bam-output --paired-end -p {threads}  --estimate-rspd  --bam {input} {params.ref} {params.name}
 	"""
 
