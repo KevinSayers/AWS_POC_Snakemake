@@ -11,12 +11,13 @@ def getfastqc_inputs(wildcards):
 
 rule fastqc:
 	input:
-		getfastqc_inputs
+		R1= join(fastqdir,"{name}_R1.fastq.gz"),
+		R2= join(fastqdir,"{name}_R2.fastq.gz"),
 	params:
-		out = expand(join(workpath,"{name}","fastqc"),name=samples)
+		out = join(workpath,"{name}","fastqc")
 	output:
-		expand(join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),name=samples),
-		expand(join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip"),name=samples)
+		join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),
+		join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip")
 
 	envmodules:
 	"fastqc/0.11.9"
