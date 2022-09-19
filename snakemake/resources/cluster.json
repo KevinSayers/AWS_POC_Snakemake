@@ -15,8 +15,8 @@
                 "threads": "16",
                 "partition": "norm",
                 "time": "05:00:00"
-        }        
-	"rsem": {
+        },        
+        "rsem": {
                 "mem": "70g",
                 "gres": "lscratch:256",
                 "threads": "16",
