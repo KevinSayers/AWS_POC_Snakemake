@@ -4,21 +4,26 @@
 nextflow.enable.dsl=2
 
 
+// define user inputs
+
+params.reads = 'path to reads'
+params.resultsdir = 'path to output folder'
+
 
 // load params
-params.reads = "/data/khanlab/projects/fastq/*_{R1,R2}.fastq.gz"
 params.genome_index = "/data/khanlab/projects/ngs_pipeline_testing/index-STAR_2.7.9a"
 params.gtf = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/gencode.v37lift37.annotation_ERCC92.gtf"
-params.outdir = "/data/khanlab/projects/Nextflow_test/results"
 params.rsem_index = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/rsem_1.3.2"
 
+
+//Print out log
 log.info """\
          R N A S E Q - N F   P I P E L I N E    
          ===================================
          star_index   : ${params.genome_index}
          rsem_index   : ${params.rsem_index}
          reads        : ${params.reads}
-         outdir       : ${params.outdir}
+         outdir       : ${params.resultsdir}
          """
          .stripIndent()
 
@@ -112,7 +117,7 @@ process star {
 process rsem {
         tag { dataset_id }
 
-	publishDir "$params.outdir/", mode: 'move'
+	publishDir "$params.resultsdir/", mode: 'move'
 
 	input:
         tuple val(dataset_id),
@@ -133,7 +138,7 @@ process rsem {
 
 process multiqc {
         tag { dataset_id }
-	publishDir "$params.out/", mode: 'move'
+	publishDir "$params.resultsdir/", mode: 'move'
 	input:
         tuple val(dataset_id),
         path(qc)
