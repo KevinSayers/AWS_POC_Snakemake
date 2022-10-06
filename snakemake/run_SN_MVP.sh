@@ -49,7 +49,7 @@ function usage() {
 
     cat << EOF
 ${SCRIPTBASENAME}
---> run ervTelescope pipeline
+--> run Snakemake_MVP pipeline
 
 USAGE:
   bash ${SCRIPTNAME} -m/--runmode=<RUNMODE> -w/--workdir=<WORKDIR>

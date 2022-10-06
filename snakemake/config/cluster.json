@@ -1,12 +1,19 @@
 {
         "__default__": {
-                "gres": "lscratch:256",
-                "mem": "48g",
+                "gres": "lscratch:128",
+                "mem": "8g",
                 "partition": "norm", 
                 "threads": "2",
-                "time": "4:00:00",
+                "time": "10:00:00",
                 "name"      : "{rule}.{wildcards}",
                 "output"    : "logs/${{SLURM_JOBID}}.%j.{rule}.{wildcards}.out",
                 "error"     : "logs/${{SLURM_JOBID}}.%j.{rule}.{wildcards}.err",
-        }
+        },
+        "star": {
+                "mem": "70g",
+                "gres": "lscratch:256",
+                "threads": "16",
+                "partition": "norm",
+                "time": "12:00:00"
+        }        
 }
