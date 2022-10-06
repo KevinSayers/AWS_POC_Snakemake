@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-## Define user input
+# Define user input
 function usage() {
     echo "USAGE: $0  --fastqdir [optional: /path/to/fastq/dir] --resultsdir [optional: /path/to/App/results/dir]"
 }
@@ -11,10 +11,13 @@ function fail() {
     exit 1
 }
 
+
+
 if [ $# -eq 0 ]; then
     usage
     exit 0
 fi
+
 
 
 ## Default values
@@ -22,22 +25,24 @@ fi
 FASTQ=/data/khanlab/projects/fastq/*_{R1,R2}.fastq.gz
 RESULTS=/data/khanlab/projects/Nextflow_test/results
 
-while [ "$1" != "" ]; do
-    case $1 in
-        --fastqdir )	shift
-			DEMUX_DIR=$1
-			;;
-        --resultsdir )	shift
-			RESULT_DIR=$1
-			;;
-        -h | --help )	usage
-			exit
-    esac
-    shift
-done
+	
+
+#while [ "$1" != "" ]; do
+#    case $1 in
+#        --fastqdir )	shift
+#			FASTQ=$1
+#			;;
+#        --resultsdir )	shift
+#			RESULTS=$1
+#			;;
+#        -h | --help )	usage
+#			exit
+#    esac
+#    shift
+#done
 
 
-## export varibles
+## export variables
 
 export FASTQ
 export RESULTS
@@ -52,11 +57,10 @@ if [ ! -d "$RESULTS" ]; then
 fi
 
 
-
 ## load the modules and launch nextflow
 module load nextflow singularity
 
-nextflow -log $RESULTS run --reads $FASTQ --resultsdir $RESULTS -profile biowulf main.nf -resume
+nextflow -log $RESULTS/log/"Nextflow_$(date +"%Y_%m_%d_%I_%M_%p").log" run --reads $FASTQ --resultsdir $RESULTS -profile biowulf main.nf -resume
 
 
 
