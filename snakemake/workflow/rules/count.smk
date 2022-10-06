@@ -1,11 +1,21 @@
+
+#def getstar_inputs(wildcards):
+#    fastq =[]
+#    s = wildcards.name
+#    fastq.append(join(fastqdir,s + "_R1.fastq.gz"))
+#    fastq.append(join(fastqdir,s + "_R2.fastq.gz"))
+#    return fastq
+#    print(wildcards)
 rule star:
-	input: getfastqc_inputs
+	input: 
+		R1= join(fastqdir,"{name}_R1.fastq.gz"),
+		R2= join(fastqdir,"{name}_R2.fastq.gz"),
 	params:
-		out = expand(join(workpath,"{name}","star_out"),name=samples),
+		out = join(workpath,"{name}","star_out"),
 		STARgenome = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/STAR_2.7.8a",
 	output:
-		G_bam = expand(join(workpath,"{name}","star_out","{name}.star.bam"),name=samples),
-		T_bam = expand(join(workpath,"{name}","star_out","{name}.star_transcriptome.bam"),name=samples)
+		G_bam = join(workpath,"{name}","star_out","{name}.star.bam"),
+		T_bam = join(workpath,"{name}","star_out","{name}.star_transcriptome.bam")
 
 	container: 'docker://nciccbr/ncigb_star_v2.7.10a:latest'
 
@@ -33,14 +43,14 @@ rule star:
 	"""
 
 rule rsem:
-	input: expand(join(workpath,"{name}","star_out","{name}.star_transcriptome.bam"),name=samples)
+	input: join(workpath,"{name}","star_out","{name}.star_transcriptome.bam")
 	params:
-		out = expand(join(workpath,"{name}","rsem_out"),name=samples),
+		out = join(workpath,"{name}","rsem_out"),
 		ref = "/data/khanlab/projects/ngs_pipeline_testing/References_4.0/New_GRCh37/Index/rsem_1.3.2/rsem_1.3.2",
-		name = expand("{name}",name=samples)
+		name = "{name}"
 	output:
-		genes = expand(join(workpath,"{name}","rsem_out","{name}.genes.results"),name=samples),
-		isoform = expand(join(workpath,"{name}","rsem_out","{name}.isoforms.results"),name=samples)
+		genes = join(workpath,"{name}","rsem_out","{name}.genes.results"),
+		isoform = join(workpath,"{name}","rsem_out","{name}.isoforms.results"),
 	container: 'docker://nciccbr/ccbr_rsem_1.3.3:v1.0'
 
 	shell: """

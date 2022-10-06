@@ -7,17 +7,17 @@ def getfastqc_inputs(wildcards):
 		fastq.append(join(fastqdir,s + "_R2.fastq.gz"))
 #		print(fastq)
 	return fastq
-	
+
 
 rule fastqc:
 	input:
-		getfastqc_inputs
-
+		R1= join(fastqdir,"{name}_R1.fastq.gz"),
+		R2= join(fastqdir,"{name}_R2.fastq.gz"),
 	params:
-		out = expand(join(workpath,"{name}","fastqc"),name=samples),
+		out = join(workpath,"{name}","fastqc")
 	output:
-		expand(join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),name=samples),
-		expand(join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip"),name=samples)
+		join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),
+		join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip")
 
 	envmodules:
 	"fastqc/0.11.9"
@@ -32,13 +32,13 @@ rule fastqc:
 
 rule multiqc:
 	input:
-		expand(join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),name=samples),
-		expand(join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip"),name=samples)
+		join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),
+		join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip"),
 
 	params:
-		out = expand(join(workpath,"{name}","multiqc"),name=samples)
+		out = join(workpath,"{name}","multiqc")
 	output:
-		expand(join(workpath,"{name}","multiqc","multiqc_report.html"),name=samples),
+		join(workpath,"{name}","multiqc","multiqc_report.html"),
 
 	envmodules:
 	"multiqc/1.9"
