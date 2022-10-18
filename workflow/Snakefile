@@ -8,25 +8,33 @@ import re
 from snakemake.remote.S3 import RemoteProvider as S3RemoteProvider
 S3 = S3RemoteProvider()
 
-       S3.remote(expand("ccr-genomics-testdata/testdata/Test1_R_T_R{letter}.fastq.gz", letter=["1", "2",]))
-
-
-
-samples = [f for f in os.listdir(config['fastqpath']) if re.search('_R1.fastq.gz', f)]
-samples = [re.sub("_R1.fastq.gz", "", x) for x in samples]
-print(samples)
-
-
+SAMPLES = ["Test1_R_T"]
 
 workpath="./"
-#fastqdir=config['fastqpath']
+
 
 rule all:
 	input:
 		expand(join(workpath,"{sample}","fastqc","{sample}_R1_fastqc.zip"),sample=samples),	
-		expand(join(workpath,"{name}","star_out","{name}.star.bam"),name=samples),
-		expand(join(workpath,"{name}","rsem_out","{name}.genes.results"),name=samples),
-		expand(join(workpath,"{name}","multiqc","multiqc_report.html"),name=samples)
-##
-include: join("workflow","rules","qc.smk")
-include: join("workflow","rules","count.smk")
+
+
+rule fastqc:
+	input:
+		R1 = S3.remote("ccr-genomics-testdata/testdata/{sample}_R1.fastq.gz",sample=SAMPLES),
+		R2 = S3.remote("ccr-genomics-testdata/testdata/{sample}_R2.fastq.gz",sample=SAMPLES),
+	params:
+		out = join(workpath,"{name}","fastqc")
+	output:
+		join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),
+		join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip")
+
+	envmodules:
+	"fastqc/0.11.9"
+
+	container: "docker://nciccbr/ccbr_fastqc_0.11.9:v1.1"
+		
+	shell: """
+
+	fastqc {input} -o  {params.out}
+
+	"""
