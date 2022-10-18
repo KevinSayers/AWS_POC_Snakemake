@@ -1,0 +1,7 @@
+{
+  "mainWorkflowURL": "https://github.com/CCRGeneticsBranch/AWS_POC_Snakemake.git",
+  "inputFileURLs": [
+    "inputs.json"
+  ],
+  "engineOptions": "-resume -profile test -r main"
+}

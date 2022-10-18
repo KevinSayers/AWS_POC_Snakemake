@@ -1,7 +1,15 @@
+
 from os.path import join
 from os import listdir
 import os
 import re
+
+
+from snakemake.remote.S3 import RemoteProvider as S3RemoteProvider
+S3 = S3RemoteProvider()
+
+       S3.remote(expand("ccr-genomics-testdata/testdata/Test1_R_T_R{letter}.fastq.gz", letter=["1", "2",]))
+
 
 
 samples = [f for f in os.listdir(config['fastqpath']) if re.search('_R1.fastq.gz', f)]
@@ -10,8 +18,8 @@ print(samples)
 
 
 
-workpath=config['workdir']
-fastqdir=config['fastqpath']
+workpath="./"
+#fastqdir=config['fastqpath']
 
 rule all:
 	input:
@@ -20,5 +28,5 @@ rule all:
 		expand(join(workpath,"{name}","rsem_out","{name}.genes.results"),name=samples),
 		expand(join(workpath,"{name}","multiqc","multiqc_report.html"),name=samples)
 ##
-include: join(config['pipelinedir'],"workflow","rules","qc.smk")
-include: join(config['pipelinedir'],"workflow","rules","count.smk")
+include: join("workflow","rules","qc.smk")
+include: join("workflow","rules","count.smk")
