@@ -1,5 +1,5 @@
 {
-  "mainWorkflowURL": "https://github.com/CCRGeneticsBranch/AWS_POC_Snakemake.git",
+  "mainWorkflowURL": ".",
   "inputFileURLs": [
     "inputs.json"
   ],

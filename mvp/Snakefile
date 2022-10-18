@@ -10,12 +10,12 @@ S3 = S3RemoteProvider()
 
 SAMPLES = ["Test1_R_T"]
 
-workpath="./"
+#workpath="./"
 
 
 rule all:
 	input:
-		expand(join(workpath,"{sample}","fastqc","{sample}_R1_fastqc.zip"),sample=samples),	
+		expand(join("{sample}","fastqc","{sample}_R1_fastqc.zip"),sample=SAMPLES),	
 
 
 rule fastqc:
@@ -23,10 +23,10 @@ rule fastqc:
 		R1 = S3.remote("ccr-genomics-testdata/testdata/{sample}_R1.fastq.gz",sample=SAMPLES),
 		R2 = S3.remote("ccr-genomics-testdata/testdata/{sample}_R2.fastq.gz",sample=SAMPLES),
 	params:
-		out = join(workpath,"{name}","fastqc")
+		out = join("{sample}","fastqc")
 	output:
-		join(workpath,"{name}","fastqc","{name}_R1_fastqc.zip"),
-		join(workpath,"{name}","fastqc","{name}_R2_fastqc.zip")
+		join("{sample}","fastqc","{sample}_R1_fastqc.zip"),
+		join("{sample}","fastqc","{sample}_R2_fastqc.zip")
 
 	envmodules:
 	"fastqc/0.11.9"
