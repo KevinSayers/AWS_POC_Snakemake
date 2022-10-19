@@ -1,5 +1,5 @@
 {
-  "mainWorkflowURL": ".",
+  "mainWorkflowURL": "https://github.com/KevinSayers/AWS_POC_Snakemake.git",
   "inputFileURLs": [
     "inputs.json"
   ],
