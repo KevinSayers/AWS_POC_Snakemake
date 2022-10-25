@@ -1,7 +1,7 @@
 {
-  "mainWorkflowURL": "https://github.com/KevinSayers/AWS_POC_Snakemake.git",
+  "mainWorkflowURL": ".",
   "inputFileURLs": [
     "inputs.json"
   ],
-  "engineOptions": "-j 10 --use-singularity --printshellcmds"
+  "engineOptions": "-j 2 --printshellcmds --cores 4"
 }

@@ -1,0 +1,36 @@
+
+from os.path import join
+from os import listdir
+import os
+import re
+
+
+from snakemake.remote.S3 import RemoteProvider as S3RemoteProvider
+S3 = S3RemoteProvider()
+
+SAMPLES = ["ggal_gut"]
+#workpath="./"
+
+
+rule all:
+	input:
+		expand(join("{sample}","fastqc","{sample}_1_fastqc.zip"),sample=SAMPLES),	
+
+
+rule fastqc:
+	input:'ggal_gut_1.fastq','ggal_gut_2.fastq'
+	params:
+		out = join("{sample}","fastqc")
+	output:
+		join("{sample}","fastqc","{sample}_1_fastqc.zip"),
+		join("{sample}","fastqc","{sample}_2_fastqc.zip")
+		
+	conda: 'env.yaml'
+	threads: 4
+	resources: 
+		mem_mb=16384,
+	shell: """
+
+	fastqc {input} -o  {params.out}
+
+	"""

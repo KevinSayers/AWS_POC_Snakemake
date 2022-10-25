@@ -13,6 +13,10 @@ workflows:
     sourceURL: mvp/
 contexts:
   onDemandContext:
+    instanceTypes:
+      - "c5.large"
+      - "c5.xlarge"
+      - "c5.2xlarge"
     engines:
       - type: snakemake
         engine: snakemake
